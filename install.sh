@@ -9,6 +9,26 @@ function joalog() {
 	echo -e "[JOASTACK] - $1"
 }
 
+# Look for cernVM-image
+# download if it doesn't exist
+
+joalog "Looking for CernVM-image in images/"
+if [ ! -d images/ ]; then
+	mkdir images
+fi
+
+cd images
+
+if [ ! -f cernvm-basic-2.6.0-4-1-x86_64.vdi ]; then
+	echo "Can't find the CernVM-image. Starting download..."
+	wget http://cernvm.cern.ch/releases/17/cernvm-basic-2.6.0-4-1-x86_64.vdi.gz
+	gunzip cernvm-basic-2.6.0-4-1-x86_64.vdi.gz
+fi
+
+# return
+cd ..
+
+# read info
 source include/input.sh
 
 cp packstack-answers.txt.repl packstack-answers.txt
