@@ -115,9 +115,9 @@ INST_ID=$(nova list | awk '/ '${INST_NAME}' / { print $2 }')
 # nova floating-ip-bulk-create $FLOATING_IP_RANGE
 
 # Then we can assign a new floating IP to our instance
-# POOL_NAME="nova"
-# INST_IP=$(nova floating-ip-create $POOL_NAME | awk '/ nova / { print $2 }')
-# nova add-floating-ip $INST_ID $INST_IP
+POOL_NAME="nova"
+INST_IP=$(nova floating-ip-create $POOL_NAME | awk '/ nova / { print $2 }')
+nova add-floating-ip $INST_ID $INST_IP
 
 joalog "Installation \"complete\". The first instance should start in a while."
 joalog "When it has started it is time to configure CernVM:"
