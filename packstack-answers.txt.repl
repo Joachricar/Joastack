@@ -43,7 +43,7 @@ EXCLUDE_SERVERS=
 CONFIG_SSH_KEY=/root/.ssh/id_rsa.pub
 
 # The IP address of the server on which to install MySQL
-CONFIG_MYSQL_HOST=192.168.1.5
+CONFIG_MYSQL_HOST=##IP##
 
 # Username for the MySQL admin user
 CONFIG_MYSQL_USER=##MYSQL_USER##
@@ -52,10 +52,10 @@ CONFIG_MYSQL_USER=##MYSQL_USER##
 CONFIG_MYSQL_PW=##MYSQL_PW##
 
 # The IP address of the server on which to install the QPID service
-CONFIG_QPID_HOST=192.168.1.5
+CONFIG_QPID_HOST=##IP##
 
 # The IP address of the server on which to install Keystone
-CONFIG_KEYSTONE_HOST=192.168.1.5
+CONFIG_KEYSTONE_HOST=##IP##
 
 # The password to use for the Keystone to access DB
 CONFIG_KEYSTONE_DB_PW=5666602564944bd1
@@ -73,7 +73,7 @@ CONFIG_KEYSTONE_DEMO_PW=261650c241b14868
 CONFIG_KEYSTONE_TOKEN_FORMAT=PKI
 
 # The IP address of the server on which to install Glance
-CONFIG_GLANCE_HOST=192.168.1.5
+CONFIG_GLANCE_HOST=##IP##
 
 # The password to use for the Glance to access DB
 CONFIG_GLANCE_DB_PW=0a0b506455ca408d
@@ -82,7 +82,7 @@ CONFIG_GLANCE_DB_PW=0a0b506455ca408d
 CONFIG_GLANCE_KS_PW=578e58734fa14717
 
 # The IP address of the server on which to install Cinder
-CONFIG_CINDER_HOST=192.168.1.5
+CONFIG_CINDER_HOST=##IP##
 
 # The password to use for the Cinder to access DB
 CONFIG_CINDER_DB_PW=c9724b5e29ec4bce
@@ -100,22 +100,22 @@ CONFIG_CINDER_VOLUMES_SIZE=##CINDER_VOLUMES_SIZE##G
 
 # The IP address of the server on which to install the Nova API
 # service
-CONFIG_NOVA_API_HOST=192.168.1.5
+CONFIG_NOVA_API_HOST=##IP##
 
 # The IP address of the server on which to install the Nova Cert
 # service
-CONFIG_NOVA_CERT_HOST=192.168.1.5
+CONFIG_NOVA_CERT_HOST=##IP##
 
 # The IP address of the server on which to install the Nova VNC proxy
-CONFIG_NOVA_VNCPROXY_HOST=192.168.1.5
+CONFIG_NOVA_VNCPROXY_HOST=##IP##
 
 # A comma separated list of IP addresses on which to install the Nova
 # Compute services
-CONFIG_NOVA_COMPUTE_HOSTS=192.168.1.5
+CONFIG_NOVA_COMPUTE_HOSTS=##IP##
 
 # The IP address of the server on which to install the Nova Conductor
 # service
-CONFIG_NOVA_CONDUCTOR_HOST=192.168.1.5
+CONFIG_NOVA_CONDUCTOR_HOST=##IP##
 
 # The password to use for the Nova to access DB
 CONFIG_NOVA_DB_PW=6b9ae581f02040b6
@@ -125,7 +125,7 @@ CONFIG_NOVA_KS_PW=e8a9bd92fff04c30
 
 # The IP address of the server on which to install the Nova Scheduler
 # service
-CONFIG_NOVA_SCHED_HOST=192.168.1.5
+CONFIG_NOVA_SCHED_HOST=##IP##
 
 # The overcommitment ratio for virtual to physical CPUs. Set to 1.0
 # to disable CPU overcommitment
@@ -140,10 +140,10 @@ CONFIG_NOVA_COMPUTE_PRIVIF=lo
 
 # The IP address of the server on which to install the Nova Network
 # service
-CONFIG_NOVA_NETWORK_HOST=192.168.1.5
+CONFIG_NOVA_NETWORK_HOST=##IP##
 
 # Public interface on the Nova network server
-CONFIG_NOVA_NETWORK_PUBIF=eth2
+CONFIG_NOVA_NETWORK_PUBIF=##ETH##
 
 # Private interface for Flat DHCP on the Nova network server
 CONFIG_NOVA_NETWORK_PRIVIF=lo
@@ -152,7 +152,7 @@ CONFIG_NOVA_NETWORK_PRIVIF=lo
 CONFIG_NOVA_NETWORK_FIXEDRANGE=192.168.32.0/22
 
 # IP Range for Floating IP's
-CONFIG_NOVA_NETWORK_FLOATRANGE=192.168.1.56/29
+CONFIG_NOVA_NETWORK_FLOATRANGE=##IP##6/29
 
 # Name of the default floating pool to which the specified floating
 # ranges are added to
@@ -163,7 +163,7 @@ CONFIG_NOVA_NETWORK_AUTOASSIGNFLOATINGIP=n
 
 # The IP addresses of the server on which to install the Quantum
 # server
-CONFIG_QUANTUM_SERVER_HOST=192.168.1.5
+CONFIG_QUANTUM_SERVER_HOST=##IP##
 
 # Enable network namespaces for Quantum
 CONFIG_QUANTUM_USE_NAMESPACES=y
@@ -176,7 +176,7 @@ CONFIG_QUANTUM_DB_PW=f43afa29359640d7
 
 # A comma separated list of IP addresses on which to install Quantum
 # L3 agent
-CONFIG_QUANTUM_L3_HOSTS=192.168.1.5
+CONFIG_QUANTUM_L3_HOSTS=##IP##
 
 # The name of the bridge that the Quantum L3 agent will use for
 # external traffic, or 'provider' if using provider networks
@@ -184,14 +184,14 @@ CONFIG_QUANTUM_L3_EXT_BRIDGE=br-ex
 
 # A comma separated list of IP addresses on which to install Quantum
 # DHCP agent
-CONFIG_QUANTUM_DHCP_HOSTS=192.168.1.5
+CONFIG_QUANTUM_DHCP_HOSTS=##IP##
 
 # The name of the L2 plugin to be used with Quantum
 CONFIG_QUANTUM_L2_PLUGIN=openvswitch
 
 # A comma separated list of IP addresses on which to install Quantum
 # metadata agent
-CONFIG_QUANTUM_METADATA_HOSTS=192.168.1.5
+CONFIG_QUANTUM_METADATA_HOSTS=##IP##
 
 # A comma separated list of IP addresses on which to install Quantum
 # metadata agent
@@ -225,10 +225,10 @@ CONFIG_QUANTUM_OVS_BRIDGE_IFACES=
 
 # The IP address of the server on which to install the OpenStack
 # client packages. An admin "rc" file will also be installed
-CONFIG_OSCLIENT_HOST=192.168.1.5
+CONFIG_OSCLIENT_HOST=##IP##
 
 # The IP address of the server on which to install Horizon
-CONFIG_HORIZON_HOST=192.168.1.5
+CONFIG_HORIZON_HOST=##IP##
 
 # To set up Horizon communication over https set this to "y"
 CONFIG_HORIZON_SSL=n
@@ -242,7 +242,7 @@ CONFIG_SSL_CERT=
 CONFIG_SSL_KEY=
 
 # The IP address on which to install the Swift proxy service
-CONFIG_SWIFT_PROXY_HOSTS=192.168.1.5
+CONFIG_SWIFT_PROXY_HOSTS=##IP##
 
 # The password to use for the Swift to authenticate with Keystone
 CONFIG_SWIFT_KS_PW=12ebaecb5e714a3d
@@ -253,7 +253,7 @@ CONFIG_SWIFT_KS_PW=12ebaecb5e714a3d
 # on 127.0.0.1 as a swift storage device(packstack does not create the
 # filesystem, you must do this first), if /dev is omitted Packstack
 # will create a loopback device for a test setup
-CONFIG_SWIFT_STORAGE_HOSTS=192.168.1.5
+CONFIG_SWIFT_STORAGE_HOSTS=##IP##
 
 # Number of swift storage zones, this number MUST be no bigger than
 # the number of storage devices configured
@@ -293,7 +293,7 @@ CONFIG_USE_EPEL=y
 CONFIG_REPO=
 
 # The IP address of the server on which to install the Nagios server
-CONFIG_NAGIOS_HOST=192.168.1.5
+CONFIG_NAGIOS_HOST=##IP##
 
 # The password of the nagiosadmin user on the Nagios server
 CONFIG_NAGIOS_PW=146baf532a8d4787

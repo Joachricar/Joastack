@@ -14,6 +14,8 @@ function joalog() {
 
 GEN_ANSWER=1
 EXIT_AFTER_GEN=0
+IFACE="eth0"
+IP=$(ifconfig $IFACE | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
 
 while getopts "ag" opt; do
     case $opt in
@@ -66,6 +68,10 @@ if [ $GEN_ANSWER -eq 1 ]; then
 	sed "s/##ADMIN_PW##/$ADMIN_PW/g" $ANSWER_FILE > $TEMPFILE
 	cp $TEMPFILE $ANSWER_FILE
 	sed "s/##CINDER_VOLUMES_SIZE##/$CINDER_VOLUMES_SIZE/g" $ANSWER_FILE > $TEMPFILE
+	cp $TEMPFILE $ANSWER_FILE
+	sed "s/##IP##/$IP/g" $ANSWER_FILE > $TEMPFILE
+	cp $TEMPFILE $ANSWER_FILE
+	sed "s/##ETH##/$IFACE/g" $ANSWER_FILE > $TEMPFILE
 	cp $TEMPFILE $ANSWER_FILE
 	rm $TEMPFILE
 	
