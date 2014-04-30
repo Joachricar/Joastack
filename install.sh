@@ -5,6 +5,7 @@
 # finn /dev/loopX på samme linje som cinder-volumes
 # sudo pvresize /dev/loopX --setphysicalvolumesize <antall gigabytes>G
 
+PUBKEY=$HOME/.ssh/id_rsa.pub
 ANSWER_FILE="packstack-answers.txt"
 
 function joalog() {
@@ -76,6 +77,14 @@ else
     joalog "Skipping answer-file gen"
 fi
 
+if [ ! -f $PUBKEY ] 
+then
+    joalog "No pubkey found. Creating new."
+    ssh-keygen
+else
+    joalog "Using public key $PUBKEY"
+fi
+
 # Look for cernVM-image
 # download if it doesn't exist
 
@@ -141,12 +150,17 @@ FLAVOR_ID=$(nova flavor-list | awk '/ '${FLAVOR_NAME}' / { print $2 }')
 VOLUME_ID=$(nova volume-list | awk '/ '${VOLUME_NAME}' / { print $2 }')
 IMAGE_ID=$(nova image-list | awk '/ '${IMAGE_NAME}' / { print $2 }')
 
+joalog "Adding keypair to OpenStack with name $USER"
+
+nova keypair-add --pub-key $PUBKEY $USER &> /dev/null
+
 joalog "Waiting for volume to become available"
 while [ $(nova volume-list | awk '/ '${VOLUME_NAME}' / { print $4 }') != "available" ]; do 
 	sleep 5
 done
 joalog "Creating instance"
-nova boot --image=$IMAGE_ID --flavor=$FLAVOR_ID --block_device_mapping hda=$VOLUME_ID:::0 $INST_NAME --security-groups $SECGROUP_NAME &> /dev/null
+
+nova boot --key-name=$USER --image=$IMAGE_ID --flavor=$FLAVOR_ID --block_device_mapping hda=$VOLUME_ID:::0 $INST_NAME --security-groups $SECGROUP_NAME &> /dev/null
 
 INST_ID=$(nova list | awk '/ '${INST_NAME}' / { print $2 }')
 
@@ -154,6 +168,7 @@ joalog "Waiting for instance to start up"
 while [ $(nova list | awk '/ '${INST_NAME}' / { print $6 }') != "ACTIVE" ]; do
 	sleep 5
 done
+
 joalog "Instance started."
 # Assign floating IP to instance
 # `nova floating-ip-pool-list` then `nova floating-ip-create $POOL_NAME` ?
@@ -170,7 +185,4 @@ INST_IP=$(nova floating-ip-create $POOL_NAME | awk '/ nova / { print $2 }')
 nova add-floating-ip $INST_ID $INST_IP
 
 joalog "Assigned IP $INST_IP to instance."
-joalog "Installation \"complete\". The first instance should start in a while."
-joalog "When it has started it is time to configure CernVM:"
-joalog "Go to the first IP of the specified floating IP-range on port 8003 and follow the steps"
-joalog "Default login is admin password"
+joalog "Installation \"complete\". The first instance should be ready in a while."
