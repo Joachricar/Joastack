@@ -152,7 +152,7 @@ CONFIG_NOVA_NETWORK_PRIVIF=lo
 CONFIG_NOVA_NETWORK_FIXEDRANGE=192.168.32.0/22
 
 # IP Range for Floating IP's
-CONFIG_NOVA_NETWORK_FLOATRANGE=##IP##6/29
+CONFIG_NOVA_NETWORK_FLOATRANGE=##IP##/29
 
 # Name of the default floating pool to which the specified floating
 # ranges are added to

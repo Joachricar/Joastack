@@ -105,6 +105,7 @@ cd images
 if [ ! -f $CERNVM_IMAGE ]; then
 	joalog "Can't find the CernVM-image. Starting download..."
 	wget http://cernvm.cern.ch/releases/25/$CERNVM_IMAGE.gz
+	joalog "Unzipping the archive"
 	gunzip $CERNVM_IMAGE.gz
 fi
 
@@ -126,22 +127,26 @@ FLOATING_IP_RANGE="192.168.1.56/29"
 # Install openstack with preconfigured settings
 # To install with default settings:
 # 	sudo packstack --allinone --os-quantum-install=n
+joalog "Starting the packstack installer"
 sudo packstack --answer-file=$ANSWER_FILE
 #sudo packstack --allinone --os-quantum-install=n --mysql-pw=$MYSQL_PW --cinder-volumes-size=$CINDER_VOLUMES_SIZE 
 # Add keystone auth envvars
+
+joalog "Copying /root/keystonerc_admin to $(pwd)"
+
 sudo cp /root/keystonerc_admin $(pwd)/
 sudo chown $USER:$USER $(pwd)/keystonerc_admin
 source $(pwd)/keystonerc_admin
 
 # Upload CernVM image
 joalog "Creating CernVM Image"
-glance image-create --name="$IMAGE_NAME" --is-public=true --disk-format=vdi --container-format=bare --min-ram=$MIN_RAM --min-disk=$MIN_DISK < $IMAGE_LOCATION &> /dev/null
+glance image-create --name="$IMAGE_NAME" --is-public=true --disk-format=qcow2 --container-format=bare < $IMAGE_LOCATION &> /dev/null
 
 # Create volume from disk
 IMAGE_ID=$(nova image-list | awk '/ '${IMAGE_NAME}' / { print $2 }')
-joalog "Creating Volume from CernVM Image"
+#joalog "Creating Volume from CernVM Image"
 
-nova volume-create --display-name=$VOLUME_NAME --image-id=$IMAGE_ID $VOLUME_SIZE &> /dev/null
+#nova volume-create --display-name=$VOLUME_NAME --image-id=$IMAGE_ID $VOLUME_SIZE &> /dev/null
 
 # Create a machine flavor <display-name> <id> <ram mb> <disk gb> <vCPUs>
 nova flavor-create $FLAVOR_NAME auto 1024 10 1 &> /dev/null
@@ -166,7 +171,7 @@ while [ $(nova volume-list | awk '/ '${VOLUME_NAME}' / { print $4 }') != "availa
 done
 joalog "Creating instance"
 
-nova boot --key-name=$USER --image=$IMAGE_ID --flavor=$FLAVOR_ID --block_device_mapping hda=$VOLUME_ID:::0 $INST_NAME --security-groups $SECGROUP_NAME &> /dev/null
+nova boot --key-name=$USER --image=$IMAGE_ID --flavor=$FLAVOR_ID $INST_NAME --security-groups $SECGROUP_NAME &> /dev/null
 
 INST_ID=$(nova list | awk '/ '${INST_NAME}' / { print $2 }')
 
