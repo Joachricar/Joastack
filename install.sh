@@ -191,9 +191,9 @@ joalog "Instance started."
 # nova floating-ip-bulk-create $FLOATING_IP_RANGE
 
 # Then we can assign a new floating IP to our instance
-POOL_NAME="nova"
-INST_IP=$(nova floating-ip-create $POOL_NAME | awk '/ nova / { print $2 }')
-nova add-floating-ip $INST_ID $INST_IP
+#POOL_NAME="nova"
+#INST_IP=$(nova floating-ip-create $POOL_NAME | awk '/ nova / { print $2 }')
+#nova add-floating-ip $INST_ID $INST_IP
 
-joalog "Assigned IP $INST_IP to instance."
+#joalog "Assigned IP $INST_IP to instance."
 joalog "Installation \"complete\". The first instance should be ready in a while."
